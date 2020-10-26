@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/iskorotkov/linear_programming/vectors"
+	"github.com/iskorotkov/linear-programming/vectors"
 )
 
 func main() {

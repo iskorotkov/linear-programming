@@ -1,3 +1,3 @@
-module github.com/iskorotkov/linear_programming
+module github.com/iskorotkov/linear-programming
 
 go 1.15
