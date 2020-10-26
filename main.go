@@ -21,16 +21,41 @@ func main() {
 
 func simplexTableSolution(a vectors.Matrix, c vectors.Vector) {
 	fmt.Println("=== SIMPLEX TABLE ===")
+	simplexCase1(a.Clone(), c.Clone())
+	simplexCase2(a.Clone(), c.Clone())
+}
+
+func simplexCase1(a vectors.Matrix, c vectors.Vector) {
+	fmt.Println("Case 1")
 
 	a2 := a.Clone()
 	a2.Reorder(2, 3, 4, 0, 1, 5)
-
-	c.Map(func(x float64) float64 { return -x })
 
 	findMainVariables(a2)
 	makeMatrixDiagonal(a2)
 	x1, x2, x3 := findXsFromDiagonalMatrix(a2)
 	replaceVariablesInC(c, x1, x2, x3)
+
+	fmt.Printf("I_max = %v\n", c[len(c)-1])
+}
+
+func simplexCase2(a vectors.Matrix, c vectors.Vector) {
+	fmt.Println("Case 2")
+
+	order := []int{2, 3, 4, 0, 1, 5}
+	a.Reorder(order...)
+	c.Reorder(order...)
+
+	findMainVariables(a)
+	makeMatrixDiagonal(a)
+	x1, x2, x3 := findXsFromDiagonalMatrix(a)
+	replaceVariablesInC(c, x1, x2, x3)
+
+	fmt.Printf("I_min = %v\n", c[len(c)-1])
+}
+
+func printValue(name string, value vectors.Vector) {
+	fmt.Printf("%s = %v\n", name, value)
 }
 
 func geometricSolution(a vectors.Matrix, c vectors.Vector) {

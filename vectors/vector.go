@@ -60,3 +60,8 @@ func (v Vector) Map(f func(float64) float64) {
 		v[i] = f(v[i])
 	}
 }
+
+func (v Vector) GetVariableFromAnother(varToFind, anotherVar int) Vector {
+	v[anotherVar] = -1
+	return v.GetVariable(varToFind)
+}
