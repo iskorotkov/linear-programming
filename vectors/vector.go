@@ -40,3 +40,23 @@ func (v Vector) ReplaceVariable(index int, replacement Vector) {
 func (v Vector) String() string {
 	return fmt.Sprint([]float64(v))
 }
+
+func (v *Vector) Reorder(order ...int) {
+	res := make(Vector, v.Length())
+	for i := 0; i < v.Length(); i++ {
+		res[i] = (*v)[order[i]]
+	}
+	*v = res
+}
+
+func (v Vector) Clone() Vector {
+	res := make(Vector, v.Length())
+	copy(res, v)
+	return res
+}
+
+func (v Vector) Map(f func(float64) float64) {
+	for i := 0; i < v.Length(); i++ {
+		v[i] = f(v[i])
+	}
+}

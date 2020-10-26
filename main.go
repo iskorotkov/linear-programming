@@ -15,21 +15,38 @@ func main() {
 
 	c := vectors.Vector{8, 10, -1, -3, -2, 0}
 
-	geometricSolution(a, c)
+	geometricSolution(a.Clone(), c.Clone())
+	simplexTableSolution(a.Clone(), c.Clone())
+}
+
+func simplexTableSolution(a vectors.Matrix, c vectors.Vector) {
+	fmt.Println("=== SIMPLEX TABLE ===")
+
+	a2 := a.Clone()
+	a2.Reorder(2, 3, 4, 0, 1, 5)
+
+	c.Map(func(x float64) float64 { return -x })
+
+	findMainVariables(a2)
+	makeMatrixDiagonal(a2)
+	x1, x2, x3 := findXsFromDiagonalMatrix(a2)
+	replaceVariablesInC(c, x1, x2, x3)
 }
 
 func geometricSolution(a vectors.Matrix, c vectors.Vector) {
+	fmt.Println("=== GEOMETRIC SOLUTION ===")
+
 	findMainVariables(a)
 	makeMatrixDiagonal(a)
 	x1, x2, x3 := findXsFromDiagonalMatrix(a)
 	replaceVariablesInC(c, x1, x2, x3)
 	checkThatXIsCorrect(a, x1, x2, x3)
 
-	fmt.Println("Variant 1")
+	fmt.Println("Case 1")
 	x4, x5 := findFreeVariables1(x1, x2, x3)
 	findExtremum(c, x1, x2, x3, x4, x5)
 
-	fmt.Println("Variant 2")
+	fmt.Println("Case 2")
 	x4, x5 = findFreeVariables2(x1, x2, x3)
 	findExtremum(c, x1, x2, x3, x4, x5)
 }

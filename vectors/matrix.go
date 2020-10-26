@@ -54,3 +54,23 @@ func (m Matrix) String() string {
 	}
 	return s[:len(s)-1]
 }
+
+func (m Matrix) Reorder(order ...int) {
+	for i := 0; i < m.Rows(); i++ {
+		m[i].Reorder(order...)
+	}
+}
+
+func (m Matrix) Clone() Matrix {
+	res := make(Matrix, m.Rows())
+	for i := 0; i < m.Rows(); i++ {
+		res[i] = m[i].Clone()
+	}
+	return res
+}
+
+func (m Matrix) Map(f func(float64) float64) {
+	for _, row := range m {
+		row.Map(f)
+	}
+}
